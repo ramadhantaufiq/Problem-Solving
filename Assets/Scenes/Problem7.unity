@@ -678,7 +678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   circle: {fileID: 1854631112}
-  boxPrefab: {fileID: 5990963633231164418, guid: f417cc9d9f74e326ba6d43869b146009,
+  boxPrefab: {fileID: 7196674620024324339, guid: f417cc9d9f74e326ba6d43869b146009,
     type: 3}
   interactable: 1
   minDistance: 2
@@ -687,6 +687,9 @@ MonoBehaviour:
   - {fileID: 292540421}
   - {fileID: 246187853}
   - {fileID: 392834009}
+  respawnEnabled: 0
+  respawnCooldown: 3
+  _activeBoxes: 0
 --- !u!114 &1699861181
 MonoBehaviour:
   m_ObjectHideFlags: 0
