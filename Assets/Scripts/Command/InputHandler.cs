@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Command
@@ -12,10 +11,17 @@ namespace Command
     
     public class InputHandler: MonoBehaviour
     {
-        public CircleController circleController;
+        public PlayerCircleController playerCircleController;
         public InputType inputType;
+        public bool specialEnabled;
         
         private Queue<Command> commands = new Queue<Command>();
+
+        private void Start()
+        {
+            playerCircleController = GetComponent<PlayerCircleController>();
+            specialEnabled = GetComponent<ZoomMovement>() != null;
+        }
 
         private void FixedUpdate()
         {
@@ -38,6 +44,15 @@ namespace Command
                 }
             }
 
+            if (Input.GetButton("Fire1") || Input.GetKey(KeyCode.Space))
+            {
+                if (specialEnabled)
+                {
+                    Command specialCommand = HandleSpecialMove();
+                    commands.Enqueue(specialCommand);
+                    specialCommand.Execute();
+                }
+            }
         }
 
         private Command HandleKeyboardMovement()
@@ -45,15 +60,19 @@ namespace Command
             float inputX = Input.GetAxis("Horizontal");
             float inputY = Input.GetAxis("Vertical");
             
-            return new KeyboardMove(circleController, inputX, inputY);
+            return new KeyboardMove(playerCircleController, inputX, inputY);
         }
 
         private Command HandleCursorMovement()
         {
             Vector2 cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            return new CursorMove(circleController, cursorPos);
+            return new CursorMove(playerCircleController, cursorPos);
         }
-            
+
+        private Command HandleSpecialMove()
+        {
+            return new SpecialControl(playerCircleController);
+        }
     }
 }
