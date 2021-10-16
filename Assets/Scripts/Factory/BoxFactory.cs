@@ -1,12 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Factory
 {
     public class BoxFactory : MonoBehaviour, IFactory
     {
-        public GameObject Produce(GameObject prefab, Vector2 spawn, Transform parent, bool interactable)
+        public GameObject Produce(GameObject prefab, Transform parent, bool interactable)
         {
-            GameObject newBox = Instantiate(prefab, spawn, Quaternion.identity, parent);
+            GameObject newBox = Instantiate(prefab, parent, false);
 
             if (!interactable)
             {
@@ -14,6 +15,9 @@ namespace Factory
                 newBox.GetComponent<BoxCollider2D>().enabled = false;
                 newBox.GetComponent<SpriteRenderer>().color = Color.black;
             }
+            
+            newBox.SetActive(true);
+
             return newBox;
         }
     }
